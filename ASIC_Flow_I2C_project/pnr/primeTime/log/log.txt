@@ -1,0 +1,363 @@
+
+                                 PrimeTime (R)
+
+                 Version V-2023.12 for linux64 - Nov 21, 2023 
+
+                    Copyright (c) 1988 - 2023 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+pt_shell> start_gui
+pt_shell> # Prime Time Setup
+pt_shell> # Change the directories acc. to your project loaction
+pt_shell> set Design_name master_top
+Information: Defining new variable 'Design_name'. (CMD-041)
+master_top
+pt_shell> set search_path /home/vlsi/Desktop/folders/FinalProject_abdallah/standardCell
+/home/vlsi/Desktop/folders/FinalProject_abdallah/standardCell
+pt_shell> set target_library $search_path/Digital_Standard_cell_Library/synopsys/models/saed90nm_max_lth.db
+/home/vlsi/Desktop/folders/FinalProject_abdallah/standardCell/Digital_Standard_cell_Library/synopsys/models/saed90nm_max_lth.db
+pt_shell> set link_path "* $target_library"
+* /home/vlsi/Desktop/folders/FinalProject_abdallah/standardCell/Digital_Standard_cell_Library/synopsys/models/saed90nm_max_lth.db
+pt_shell> set Netlist_files  /home/vlsi/Desktop/ASIC_final/pnr/output/master_top_for_pt_v.v
+Information: Defining new variable 'Netlist_files'. (CMD-041)
+/home/vlsi/Desktop/ASIC_final/pnr/output/master_top_for_pt_v.v
+pt_shell> set SPEF_files     ../output/master_top.out.spef.spef_scenario
+Information: Defining new variable 'SPEF_files'. (CMD-041)
+../output/master_top.out.spef.spef_scenario
+pt_shell> set constrains_file ../output/master_top.out.sdc
+Information: Defining new variable 'constrains_file'. (CMD-041)
+../output/master_top.out.sdc
+pt_shell> read_verilog $Netlist_files
+1
+pt_shell> current_desgin
+Error: unknown command 'current_desgin' (CMD-005)
+pt_shell> current_design
+Information: current_design won't return any data before link (DES-071)
+pt_shell> link_design
+Loading db file '/home/vlsi/Desktop/folders/FinalProject_abdallah/standardCell/Digital_Standard_cell_Library/synopsys/models/saed90nm_max_lth.db'
+Loading verilog file '/home/vlsi/Desktop/ASIC_final/pnr/output/master_top_for_pt_v.v'
+Linking design i2c_master_top...
+Removed 3141 unconnected cells and blackboxes.
+Information: Removing 4 unneeded designs..... (LNK-034)
+Information: 187 (83.48%) library cells are unused in library saed90nm_max_lth..... (LNK-045)
+Information: total 187 library cells are unused (LNK-046)
+Design 'i2c_master_top' was successfully linked.
+Information: There are 778 leaf cells, ports, hiers and 993 nets in the design (LNK-047)
+1
+pt_shell> current_design
+{"i2c_master_top"}
+pt_shell> read_parasitics  $SPEF_files
+Information: Log for 'read_parasitics command' will be generated in 'parasitics_command.log'. (PARA-107)
+Information: read_parasitics command is executed in background
+1
+pt_shell> read_sdc $constrains_file
+
+Reading SDC version 2.1...
+Warning: Converting a propagated clock 'wb_clk_i' to an ideal clock. (UITE-305)
+Information: Loading library 'saed90nm_max_lth' data due to accessing lib cells not linked in the current design. (LNK-041)
+1
+1
+pt_shell> update_timing
+Information: Using automatic max wire load selection group 'predcaps'. (ENV-003)
+Information: Using automatic min wire load selection group 'predcaps'. (ENV-003)
+Information: Building multi voltage information for entire design. (MV-022)
+Warning: Some timing arcs have been disabled for breaking timing loops or because of constant propagation. Use the 'report_disable_timing' command to get the list of these disabled timing arcs. (PTE-003)
+1
+pt_shell> report_timing
+****************************************
+Report : timing
+	-path_type full
+	-delay_type max
+	-max_paths 1
+	-sort_by slack
+Design : i2c_master_top
+Version: V-2023.12
+Date   : Mon May 13 18:24:59 2024
+****************************************
+
+
+  Startpoint: wb_rst_i (input port clocked by wb_clk_i)
+  Endpoint: byte_controller/bit_controller/cnt_reg_4_
+               (rising edge-triggered flip-flop clocked by wb_clk_i)
+  Path Group: INPUTS
+  Path Type: max
+
+  Point                                                   Incr       Path
+  ------------------------------------------------------------------------------
+  clock wb_clk_i (rise edge)                              0.00       0.00
+  clock network delay (ideal)                             0.08       0.08
+  input external delay                                    0.50       0.58 r
+  wb_rst_i (in)                                           0.10       0.68 r
+  HFSINV_536_1/ZN (INVX0)                                 0.13       0.81 f
+  byte_controller/bit_controller/U21/QN (NAND4X0)         0.15       0.96 r
+  byte_controller/bit_controller/U22/QN (NOR2X0)          0.17       1.13 f
+  byte_controller/bit_controller/U12/QN (NOR2X0)          0.13       1.26 r
+  byte_controller/bit_controller/U121/Q (AO222X1)         0.11       1.37 r
+  byte_controller/bit_controller/cnt_reg_4_/D (DFFARX2)
+                                                          0.00       1.37 r
+  data arrival time                                                  1.37
+
+  clock wb_clk_i (rise edge)                              5.00       5.00
+  clock network delay (propagated)                        0.06       5.06
+  clock reconvergence pessimism                           0.00       5.06
+  clock uncertainty                                      -0.30       4.76
+  byte_controller/bit_controller/cnt_reg_4_/CLK (DFFARX2)            4.76 r
+  library setup time                                     -0.06       4.70
+  data required time                                                 4.70
+  ------------------------------------------------------------------------------
+  data required time                                                 4.70
+  data arrival time                                                 -1.37
+  ------------------------------------------------------------------------------
+  slack (MET)                                                        3.33
+
+
+1
+pt_shell> report_analysis_coverage
+****************************************
+Report : analysis_coverage
+Design : i2c_master_top
+Version: V-2023.12
+Date   : Mon May 13 18:24:59 2024
+****************************************
+
+Type of Check         Total              Met         Violated         Untested
+--------------------------------------------------------------------------------
+setup                   153       153 (100%)         0 (  0%)         0 (  0%)
+hold                    153       110 ( 72%)        41 ( 27%)         2 (  1%)
+recovery                142       142 (100%)         0 (  0%)         0 (  0%)
+removal                 142         0 (  0%)         0 (  0%)       142 (100%)
+min_pulse_width         448       306 ( 68%)         0 (  0%)       142 ( 32%)
+out_setup                14        12 ( 86%)         0 (  0%)         2 ( 14%)
+out_hold                 14         0 (  0%)         0 (  0%)        14 (100%)
+--------------------------------------------------------------------------------
+All Checks             1066       723 ( 68%)        41 (  4%)       302 ( 28%)
+
+1
+pt_shell> report_global_timing
+****************************************
+Report : global_timing
+	-format { narrow }
+Design : i2c_master_top
+Version: V-2023.12
+Date   : Mon May 13 18:24:59 2024
+****************************************
+
+No setup violations found.
+
+Hold violations
+---------------------------------------------------------
+         Total  reg->reg   in->reg  reg->out   in->out
+---------------------------------------------------------
+WNS      -0.06     -0.06      0.00      0.00      0.00
+TNS      -0.84     -0.84      0.00      0.00      0.00
+NUM         41        41         0         0         0
+---------------------------------------------------------
+
+1
+pt_shell> report_clocks
+****************************************
+Report : clock
+Design : i2c_master_top
+Version: V-2023.12
+Date   : Mon May 13 18:24:59 2024
+****************************************
+
+Attributes:
+    p - Propagated clock
+    G - Generated  clock
+    I - Inactive   clock
+
+Clock             Period          Waveform            Attrs     Sources
+-----------------------------------------------------------------------
+wb_clk_i            5.00          {0 2.5}                       {wb_clk_i}
+
+1
+pt_shell> fix_eco_timing -type hold -methods insert_buffer -buffer_list {NBUFFX1 NBUFFX2 NBUFFX3}
+Information: Setting timing_save_pin_arrival_and_slack to TRUE and updating timing. (PTE-076)
+Information: It is recommended that the variable timing_save_pin_arrival_and_slack be set before the initial timing update for optimal performance of this command. (PTE-077)
+Information: GUI is active. Stopping for performance...
+To restart the GUI, type 'gui_start'.
+Information: Checked out license 'PrimeTime-SI' (PT-019)
+Information: Starting timing fix iteration 1 at [ Mon May 13 18:26:17 2024 ]...
+Warning: Ignoring lib cell NBUFFX1 as corresponding library cell definition does not exist. (PTECO-099)
+Warning: Ignoring lib cell NBUFFX3 as corresponding library cell definition does not exist. (PTECO-099)
+
+Available buffers:
+Lib_cell               Area
+--------------------------------------------------------
+Information: Loading library 'saed90nm_max_lth' data due to accessing lib cells not linked in the current design. (LNK-041)
+NBUFFX2                5.53
+
+Information: 41 violating endpoints located... (PTECO-022)
+Information: 41 endpoints are being considered for fixing... (PTECO-027)
+Information: Fixing violations...
+Warning: Ignoring lib cell NBUFFX1 as corresponding library cell definition does not exist. (PTECO-099)
+Warning: Ignoring lib cell NBUFFX3 as corresponding library cell definition does not exist. (PTECO-099)
+Information: Starting updating timing at [ Mon May 13 18:26:17 2024 ]...
+Information: Finished updating timing at [ Mon May 13 18:26:17 2024 ]...
+Information: Analyzing timing improvement...
+Warning: Ignoring lib cell NBUFFX1 as corresponding library cell definition does not exist. (PTECO-099)
+Warning: Ignoring lib cell NBUFFX3 as corresponding library cell definition does not exist. (PTECO-099)
+Information: Tuning changes...
+Information: Starting updating timing at [ Mon May 13 18:26:17 2024 ]...
+Information: Finished updating timing at [ Mon May 13 18:26:17 2024 ]...
+Information: 26 buffers have been inserted.
+
+Information: Starting timing fix iteration 2 at [ Mon May 13 18:26:17 2024 ]...
+Information: 9 violating endpoints located... (PTECO-022)
+Information: 9 endpoints are being considered for fixing... (PTECO-027)
+Information: Fixing violations...
+Warning: Ignoring lib cell NBUFFX1 as corresponding library cell definition does not exist. (PTECO-099)
+Warning: Ignoring lib cell NBUFFX3 as corresponding library cell definition does not exist. (PTECO-099)
+Information: Starting updating timing at [ Mon May 13 18:26:17 2024 ]...
+Information: Finished updating timing at [ Mon May 13 18:26:17 2024 ]...
+Information: Analyzing timing improvement...
+Warning: Ignoring lib cell NBUFFX1 as corresponding library cell definition does not exist. (PTECO-099)
+Warning: Ignoring lib cell NBUFFX3 as corresponding library cell definition does not exist. (PTECO-099)
+Information: Tuning changes...
+Information: Starting updating timing at [ Mon May 13 18:26:17 2024 ]...
+Information: Finished updating timing at [ Mon May 13 18:26:17 2024 ]...
+Information: 3 buffers have been inserted.
+
+Information: Starting timing fix iteration 3 at [ Mon May 13 18:26:17 2024 ]...
+Information: 0 violating endpoints located... (PTECO-022)
+Information: 0 endpoints are being considered for fixing... (PTECO-027)
+Information: Fixing violations...
+Information: No more fixes are available.
+Information: The timing violation fixing process is complete.
+
+Inserted buffers:
+   Count Lib_cell               Area          Total_area
+--------------------------------------------------------
+      29 NBUFFX2                5.53              160.36
+--------------------------------------------------------
+      29 TOTAL                                    160.36
+
+Final ECO Summary:
+--------------------------------------------------------
+Number of insert_buffer commands                      29
+Total number of commands                              29
+Area increased by buffer insertion                160.36
+Total area increased                              160.36
+
+Fixing Summary:
+--------------------------------------------------------
+Total violating endpoints found                       41
+Total violating endpoints fixed                       41
+Total violating endpoints remaining                    0
+Total percentage of violations fixed               100.0%
+
+Information: Elapsed time [                0 seconds ]
+Information: Completed at [ Mon May 13 18:26:17 2024 ]
+
+1
+pt_shell> start_gui
+pt_shell> Error: Signal integrity analysis is disabled. (NOISE-012)
+pt_shell> write_changes -format icctcl Prime_time_changes.tcl
+Error: extra positional option 'Prime_time_changes.tcl' (CMD-012)
+pt_shell> write_changes Prime_time_changes.tcl
+Error: extra positional option 'Prime_time_changes.tcl' (CMD-012)
+pt_shell> write_changes -format icctcl
+###############################################################################
+# Change list, formatted for IC Compiler
+#
+# 
+#
+###############################################################################
+current_instance
+current_instance {byte_controller/bit_controller}
+insert_buffer [get_pins {U179/QN}] NBUFFX2 -new_net_names {net_PTECO_HOLD_NET1} -new_cell_names {U_PTECO_HOLD_BUF1}
+current_instance
+current_instance {byte_controller}
+insert_buffer [get_pins {U16/INP}] NBUFFX2 -new_net_names {net_PTECO_HOLD_NET2} -new_cell_names {U_PTECO_HOLD_BUF2}
+insert_buffer [get_pins {U63/IN3}] NBUFFX2 -new_net_names {net_PTECO_HOLD_NET3} -new_cell_names {U_PTECO_HOLD_BUF3}
+current_instance
+current_instance {byte_controller/bit_controller}
+insert_buffer [get_pins {copt_h_inst_916/INP}] NBUFFX2 -new_net_names {net_PTECO_HOLD_NET4} -new_cell_names {U_PTECO_HOLD_BUF4}
+current_instance
+current_instance {byte_controller}
+insert_buffer [get_pins {core_cmd_reg_3_/D}] NBUFFX2 -new_net_names {net_PTECO_HOLD_NET5} -new_cell_names {U_PTECO_HOLD_BUF5}
+current_instance
+current_instance {byte_controller/bit_controller}
+insert_buffer [get_pins {ctmTdsLR_2_292/IN4}] NBUFFX2 -new_net_names {net_PTECO_HOLD_NET6} -new_cell_names {U_PTECO_HOLD_BUF6}
+current_instance
+current_instance {byte_controller}
+insert_buffer [get_pins {c_state_reg_2_/QN}] NBUFFX2 -new_net_names {net_PTECO_HOLD_NET7} -new_cell_names {U_PTECO_HOLD_BUF7}
+insert_buffer [get_pins {U97/IN2}] NBUFFX2 -new_net_names {net_PTECO_HOLD_NET8} -new_cell_names {U_PTECO_HOLD_BUF8}
+current_instance
+current_instance {byte_controller/bit_controller}
+insert_buffer [get_pins {U43/IN2}] NBUFFX2 -new_net_names {net_PTECO_HOLD_NET9} -new_cell_names {U_PTECO_HOLD_BUF9}
+insert_buffer [get_pins {U161/IN2}] NBUFFX2 -new_net_names {net_PTECO_HOLD_NET10} -new_cell_names {U_PTECO_HOLD_BUF10}
+insert_buffer [get_pins {c_state_reg_5_/D}] NBUFFX2 -new_net_names {net_PTECO_HOLD_NET11} -new_cell_names {U_PTECO_HOLD_BUF11}
+insert_buffer [get_pins {U159/IN2}] NBUFFX2 -new_net_names {net_PTECO_HOLD_NET12} -new_cell_names {U_PTECO_HOLD_BUF12}
+current_instance
+current_instance {byte_controller}
+insert_buffer [get_pins {U20/IN2}] NBUFFX2 -new_net_names {net_PTECO_HOLD_NET13} -new_cell_names {U_PTECO_HOLD_BUF13}
+current_instance
+current_instance {byte_controller/bit_controller}
+insert_buffer [get_pins {c_state_reg_0_/D}] NBUFFX2 -new_net_names {net_PTECO_HOLD_NET14} -new_cell_names {U_PTECO_HOLD_BUF14}
+insert_buffer [get_pins {U21/IN1}] NBUFFX2 -new_net_names {net_PTECO_HOLD_NET15} -new_cell_names {U_PTECO_HOLD_BUF15}
+current_instance
+current_instance {byte_controller}
+insert_buffer [get_pins {U27/IN1}] NBUFFX2 -new_net_names {net_PTECO_HOLD_NET16} -new_cell_names {U_PTECO_HOLD_BUF16}
+current_instance
+current_instance {byte_controller/bit_controller}
+insert_buffer [get_pins {filter_cnt_reg_2_/D}] NBUFFX2 -new_net_names {net_PTECO_HOLD_NET17} -new_cell_names {U_PTECO_HOLD_BUF17}
+insert_buffer [get_pins {filter_cnt_reg_9_/D}] NBUFFX2 -new_net_names {net_PTECO_HOLD_NET18} -new_cell_names {U_PTECO_HOLD_BUF18}
+insert_buffer [get_pins {filter_cnt_reg_4_/D}] NBUFFX2 -new_net_names {net_PTECO_HOLD_NET19} -new_cell_names {U_PTECO_HOLD_BUF19}
+insert_buffer [get_pins {filter_cnt_reg_3_/D}] NBUFFX2 -new_net_names {net_PTECO_HOLD_NET20} -new_cell_names {U_PTECO_HOLD_BUF20}
+current_instance
+current_instance {byte_controller}
+insert_buffer [get_pins {U78/QN}] NBUFFX2 -new_net_names {net_PTECO_HOLD_NET21} -new_cell_names {U_PTECO_HOLD_BUF21}
+current_instance
+current_instance {byte_controller/bit_controller}
+insert_buffer [get_pins {U113/IN1}] NBUFFX2 -new_net_names {net_PTECO_HOLD_NET22} -new_cell_names {U_PTECO_HOLD_BUF22}
+current_instance
+current_instance {byte_controller}
+insert_buffer [get_pins {U99/IN1}] NBUFFX2 -new_net_names {net_PTECO_HOLD_NET23} -new_cell_names {U_PTECO_HOLD_BUF23}
+insert_buffer [get_pins {U99/IN4}] NBUFFX2 -new_net_names {net_PTECO_HOLD_NET24} -new_cell_names {U_PTECO_HOLD_BUF24}
+insert_buffer [get_pins {U94/IN1}] NBUFFX2 -new_net_names {net_PTECO_HOLD_NET25} -new_cell_names {U_PTECO_HOLD_BUF25}
+current_instance
+current_instance {byte_controller/bit_controller}
+insert_buffer [get_pins {U157/IN3}] NBUFFX2 -new_net_names {net_PTECO_HOLD_NET26} -new_cell_names {U_PTECO_HOLD_BUF26}
+insert_buffer [get_pins {U_PTECO_HOLD_BUF1/INP}] NBUFFX2 -new_net_names {net_PTECO_HOLD_NET27} -new_cell_names {U_PTECO_HOLD_BUF27}
+insert_buffer [get_pins {U43/IN2}] NBUFFX2 -new_net_names {net_PTECO_HOLD_NET28} -new_cell_names {U_PTECO_HOLD_BUF28}
+current_instance
+current_instance {byte_controller}
+insert_buffer [get_pins {U_PTECO_HOLD_BUF16/INP}] NBUFFX2 -new_net_names {net_PTECO_HOLD_NET29} -new_cell_names {U_PTECO_HOLD_BUF29}
+current_instance
+1
+pt_shell> update_timing
+1
+pt_shell> write_changes -format icc2tcl Prime_time_changes.tcl
+Error: extra positional option 'Prime_time_changes.tcl' (CMD-012)
+pt_shell> write_changes -format icc2tcl -output Prime_time_changes.tcl
+Information: Writing change list file '/home/vlsi/Desktop/ASIC_final/pnr/prime_time/Prime_time_changes.tcl'.
+1
+pt_shell> exit
+Suppressed Messages Summary:
+Id          Severity      Occurrences   Suppressed
+-------------------------------------------------------------------------------
+CMD-005     Error                  12           11
+Total 1 type of message is suppressed
+
+Timing updates: 3 (2 implicit, 1 explicit) (2 incremental, 1 full, 0 logical)
+Noise updates: 0 (0 implicit, 0 explicit) (0 incremental, 0 full)
+Maximum memory usage for this session: 5442.68 MB
+CPU usage for this session: 31 seconds 
+Elapsed time for this session: 1195 seconds
+Diagnostics summary: 5 errors, 38 warnings, 55 informationals
+
+Thank you for using pt_shell!

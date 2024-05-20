@@ -1,0 +1,31 @@
+#@ # 
+#@ # Running icc2_shell Version V-2023.12 for linux64 -- Nov 23, 2023
+#@ # Date:   Tue May 14 09:47:23 2024
+#@ # Run by: vlsi@elc-v23010517-lnx
+#@ 
+
+start_gui
+gui_set_pref_value -category {SelectByNamePalette} -key {ObjectType} -value {Logical Cells}
+open_lib /home/vlsi/Desktop/ADD/ASIC_project/i2c_project/pnr/i2c_master.dlib -edit
+open_block /home/vlsi/Desktop/ADD/ASIC_project/i2c_project/pnr/i2c_master.dlib:routing.design
+win_set_filter -visible -class cell -filter {assembly_die_margin clock_margin hard_macro_margin hard_margin route_blockage_margin seal_ring_margin soft_margin} -layer {}
+win_set_filter -visible -class pseudo_bump -filter {deleted} -layer {}
+win_set_filter -visible -class pseudo_tsv -filter {deleted} -layer {}
+win_set_filter -visible -class placement_blockage -filter {wiring} -layer {0-77}
+win_set_filter -expand_cell_types {soft_macro  }
+win_set_select_class -visible {cell port bound routing_blockage shaping_blockage pg_region bump_region pseudo_bump pseudo_tsv pin_blockage block_shielding topology_node topology_edge topology_repeater annotation_shape core_area die_area edit_group shape via terminal fill_cell placement_blockage }
+win_set_filter -class cell -filter {array assembly_die_margin clock_margin hard_macro_margin hard_margin route_blockage_margin seal_ring_margin soft_margin} -layer {}
+win_set_filter -class pseudo_bump -filter {deleted} -layer {}
+win_set_filter -class pseudo_tsv -filter {deleted} -layer {}
+win_set_filter -class placement_blockage -filter {wiring} -layer {0-77}
+win_set_select_class {cell port bound routing_blockage shaping_blockage pg_region bump_region pseudo_bump pseudo_tsv pin_blockage topology_node topology_edge topology_repeater annotation_shape edit_group shape via placement_blockage }
+link_block
+gui_zoom -window [gui_get_current_window -types Layout -mru] -factor 0.5 -at_point {80.785 67.950}
+gui_zoom -window [gui_get_current_window -types Layout -mru] -factor 0.5 -at_point {80.595 67.755}
+gui_scroll -window [gui_get_current_window -types Layout -mru] -hrel -0.25
+gui_scroll -window [gui_get_current_window -types Layout -mru] -hrel -0.25
+gui_scroll -window [gui_get_current_window -types Layout -mru] -hrel -0.25
+gui_zoom -window [gui_get_current_window -view] -factor 2.0
+gui_zoom -window [gui_get_current_window -view] -factor 2.0
+gui_scroll -window [gui_get_current_window -view] -hrel .2
+gui_scroll -window [gui_get_current_window -view] -hrel .2

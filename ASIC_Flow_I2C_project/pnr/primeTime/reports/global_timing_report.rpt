@@ -1,0 +1,12 @@
+****************************************
+Report : global_timing
+	-format { narrow }
+Design : i2c_master_top
+Version: V-2023.12
+Date   : Tue May 14 09:12:20 2024
+****************************************
+
+No setup violations found.
+
+No hold violations found.
+1

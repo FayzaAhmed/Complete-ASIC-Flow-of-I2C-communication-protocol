@@ -1,0 +1,48 @@
+****************************************
+Report : timing
+	-path_type full
+	-delay_type max
+	-max_paths 1
+	-sort_by slack
+Design : i2c_master_top
+Version: V-2023.12
+Date   : Tue May 14 09:12:20 2024
+****************************************
+
+
+  Startpoint: wb_rst_i (input port clocked by wb_clk_i)
+  Endpoint: byte_controller/bit_controller/cnt_reg_4_
+               (rising edge-triggered flip-flop clocked by wb_clk_i)
+  Path Group: INPUTS
+  Path Type: max
+
+  Point                                                   Incr       Path
+  ------------------------------------------------------------------------------
+  clock wb_clk_i (rise edge)                              0.00       0.00
+  clock network delay (ideal)                             0.10       0.10
+  input external delay                                    0.50       0.60 r
+  wb_rst_i (in)                                           0.10       0.69 r
+  HFSINV_536_1/ZN (INVX0)                                 0.13       0.82 f
+  byte_controller/bit_controller/U21/QN (NAND4X0)         0.15       0.97 r
+  byte_controller/bit_controller/U22/QN (NOR2X0)          0.17       1.14 f
+  byte_controller/bit_controller/U12/QN (NOR2X0)          0.13       1.27 r
+  byte_controller/bit_controller/U121/Q (AO222X1)         0.11       1.39 r
+  byte_controller/bit_controller/cnt_reg_4_/D (DFFARX2)
+                                                          0.00       1.39 r
+  data arrival time                                                  1.39
+
+  clock wb_clk_i (rise edge)                              5.00       5.00
+  clock network delay (propagated)                        0.06       5.06
+  clock reconvergence pessimism                           0.00       5.06
+  clock uncertainty                                      -0.30       4.76
+  byte_controller/bit_controller/cnt_reg_4_/CLK (DFFARX2)            4.76 r
+  library setup time                                     -0.06       4.70
+  data required time                                                 4.70
+  ------------------------------------------------------------------------------
+  data required time                                                 4.70
+  data arrival time                                                 -1.39
+  ------------------------------------------------------------------------------
+  slack (MET)                                                        3.31
+
+
+1
